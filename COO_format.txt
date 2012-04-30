@@ -1,0 +1,19 @@
+/*
+ 
+ // typical C/C++ implementation of a Coordinate (COO) matrix format  
+ // (aka Triplet or TRIAD or IJV format) 
+ 
+ struct typical_coo_matrix {
+ 
+ size_t N;                    // matrix dimension
+ size_t num_non_zero_coeffs;  // number of non-zero coefficients
+ size_t row_indices[];        // row indices (array of size num_non_zero_coeffs)
+ size_t column_indices[];     // column indices (array of size num_non_zero_coeffs)
+ double values[];             // non-zero coefficients (array of size num_non_zero_coeffs)
+ 
+};
+
+// array with row indices is sorted, ensuring that entries with the same row index 
+// are stored contiguously.
+
+ */

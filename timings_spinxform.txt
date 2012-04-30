@@ -1,0 +1,140 @@
+Timings for the convergence of the original version of the code (SpinXForm) [1] 
+with debug/optimization flags and single float/double precision
+(tested on a Mac Snow Leopard 10.6.8, 2.66GHz Core 2 Duo, gcc version 4.2.1).
+
+[1] http://users.cms.caltech.edu/~keenan/src/spinxform_commandline.zip
+
+
+Compile and execute with:
+
+make clean
+make
+./spinxform sphere.obj bumpy.tga result.obj
+
+
+-O3 flag (double precision)
+
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 1.34573e-09 after 314 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 2.66696e-09 after 288 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 3.32987e-09 after 283 iterations.
+Linear solver achieved a residual of 2.04736e-12 after 53 iterations.
+time: 1.77372s
+time: 1.71109s
+time: 1.70524s
+
+-O0 -g flag (double precision)
+
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 1.34573e-09 after 314 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 2.66696e-09 after 288 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 3.32987e-09 after 283 iterations.
+Linear solver achieved a residual of 2.04736e-12 after 53 iterations.
+time: 10.0356s
+
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 1.34573e-09 after 314 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 2.66696e-09 after 288 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 3.32987e-09 after 283 iterations.
+Linear solver achieved a residual of 2.04736e-12 after 53 iterations.
+time: 10.0347s
+
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 1.34573e-09 after 314 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 2.66696e-09 after 288 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 3.32987e-09 after 283 iterations.
+Linear solver achieved a residual of 2.04736e-12 after 53 iterations.
+time: 10.0363s
+
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 1.34573e-09 after 314 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 2.66696e-09 after 288 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 3.32987e-09 after 283 iterations.
+Linear solver achieved a residual of 2.04736e-12 after 53 iterations.
+time: 10.0363s
+
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 1.34573e-09 after 314 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 2.66696e-09 after 288 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 3.32987e-09 after 283 iterations.
+Linear solver achieved a residual of 2.04736e-12 after 53 iterations.
+time: 10.0306s
+
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 1.34573e-09 after 314 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 2.66696e-09 after 288 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 3.32987e-09 after 283 iterations.
+Linear solver achieved a residual of 2.04736e-12 after 53 iterations.
+time: 10.0227s
+
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 1.34573e-09 after 314 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 2.66696e-09 after 288 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 3.32987e-09 after 283 iterations.
+Linear solver achieved a residual of 2.04736e-12 after 53 iterations.
+time: 10.0253s
+
+- O0 -g flag (single float precision)
+
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 1.34088e-09 after 466 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 2.73568e-09 after 441 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 2.92522e-09 after 420 iterations.
+Linear solver achieved a residual of 2.566e-06 after 2000 iterations.
+time: 28.5828s
+
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 1.34088e-09 after 466 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 2.73568e-09 after 441 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 2.92522e-09 after 420 iterations.
+Linear solver achieved a residual of 2.566e-06 after 2000 iterations.
+time: 28.6078s
+
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 1.34088e-09 after 466 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 2.73568e-09 after 441 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 2.92522e-09 after 420 iterations.
+Linear solver achieved a residual of 2.566e-06 after 2000 iterations.
+time: 28.6071s
+
+- O3 (single float precision)
+
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 1.34088e-09 after 466 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 2.73568e-09 after 441 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 2.92522e-09 after 420 iterations.
+Linear solver achieved a residual of 2.566e-06 after 2000 iterations.
+time: 3.84985s
+
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 1.34088e-09 after 466 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 2.73568e-09 after 441 iterations.
+WARNING: using basic CG solver with diagonal preconditioner -- may be (very) slow!
+Linear solver achieved a residual of 2.92522e-09 after 420 iterations.
+Linear solver achieved a residual of 2.566e-06 after 2000 iterations.
+time: 3.86234s
