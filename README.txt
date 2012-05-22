@@ -1,51 +1,194 @@
 -------------------------------------------------------------------------------
-SpinXFormGPU: Attempt to accelerate SpinXForm [1] by solving multiple linear 
-systems on the GPU using CUSP's [2] conjugate gradient solver without any 
-preconditioner and CUSP's views (see ./views.txt for an explanation).
-The main modification in SpinXForm [1] is converting the sparse matrix to the 
-Coordinate (or triplet) format (COO) on the host (see COO_format.txt).
 
-Code courtesy of Keenan Crane unless otherwise stated. For the original version 
-(SpinXForm), see [1]:
+                   SpinXFormGPU, Nikos Yiotis, May 2012
 
-The SpinXFormGPU executable takes two input arguments and one optional output 
-argument:
+SpinXFormGPU is a GPU-aware version of SpinXForm [1] that uses NVidia's CUDA. 
+SpinXForm [1] is a C++ implementation of an algorithm for computing conformal 
+transformations of polygon meshes based on the paper
+
+  K. Crane, U. Pinkall, and P. Schroeder, "Spin Transformations of
+  Discrete Surfaces," ACM Transactions on Graphics (SIGGRAPH) 2011.
+
+The basic functionality is to take a manifold, triangulated mesh (without 
+boundary) plus a grayscale image map as input, and produce a new mesh with the 
+same connectivity but modified vertex positions. Triangles in the new mesh will 
+have nearly the same angles and aspect ratios as those from the original mesh, 
+but with curvature that differs by the amount specified in the input image  
+(see the paper above for more details).  
+
+SpinXFormGPU solves the linear systems of SpinXForm [1] on the GPU using CUSP's 
+[2] conjugate gradient solver but *without* any preconditioner. Depending on 
+which distribution of SpinXFormGPU you have installed, SpinXFormGPU might use 
+CUSP's views (see ./views.txt for an explanation) or not. In order to solve the 
+linear systems using CUSP, I converted the sparse matrices of SpinXForm to the 
+Coordinate (or triplet) format (COO) on the host (see COO_format.txt). Note that 
+SpinXFormGPU and SpinXFormGPUViews only support single precision arithmetic 
+since I developed SpinXFormGPU for a NVidia's card of Compute Compatibility 1.1,
+which doesn't support double precision. I provide double precision support for 
+CUDA devices of Compute Capability 1.3 and higher (completely untested, but 
+likely to be much faster compared to the single precision), see [7], [8] for the 
+equivalent to the SpinXFormGPU, SpinXFormGPU_Views versions respectively. 
+
+Note that the code was written in ISO C++, however some strict ISO restrictions 
+(in particular, compilation with ansi, pedantic flags) were relaxed due to a bug 
+in Thrust, see the comments in the makefile for details. Apart from:
+
+- CUDA v.4.1 or higher,
+- Thrust v.1.5.1 (a parallel algorithms library resembling the C++ Standard 
+  Template Library (STL), see [2]), or higher
+- CUSP v.0.3.0 (a library for sparse linear algebra and graph computations on 
+  CUDA, built on top of Thrust, see [3]) or higher.
+
+there are no other external dependencies so the code should compile on any 
+machine. The SpinXFormGPU executable takes two input arguments (i.e., one 
+triangulated mesh and one grayscale image) and one optional output argument:
 
    spinxformgpu mesh.obj image.tga [result.obj]
 
-I provide sphere.obj and bumpy.tga files (courtesy of Keenan Crane) so compile 
-and execute in command line with 
+I provide sphere.obj/sphere_original.obj and bumpy.tga files (courtesy of 
+Keenan Crane) so one can compile and execute in command line with 
 
 make clean
 make
 ./spinxformgpu sphere.obj bumpy.tga result.obj
 
-* Performance of the algorithm is memory-bound: its performance is limited by 
-memory bandwidth, not floating point operations and the amount of computations 
-per load/store is relatively small. This is mostly due to the sparse-matrix-vector 
-multiplications occuring when the conjugate solver is executing.
+or 
+
+make clean
+make
+./spinxformgpu sphere_original.obj bumpy.tga result.obj
+
+Note that there is an issue in QuaternionMatrix.cpp. In the 
+
+'cusp_columns.erase( cusp_columns.begin(), cusp_columns.begin() + 84648  );'
+
+function - found in the 'CUSP's COO columns' part of the routine - the value 
+84648, which represents 4-times the number of vertices of the input mesh 
+(sphere_original.obj in this case), should be hard-coded. Note however, that the 
+
+'cusp_rows.erase( cusp_rows.begin(), cusp_rows.begin() + n*4 );'      // generic 
+and
+'cusp_values.erase( cusp_values.begin(), cusp_values.begin() + n*4 );'// generic
+
+functions found respectively in the 'CUSP's COO rows' and 'CUSP's COO values' 
+parts of the routine work fine with generic values (n*4), that is there is no 
+need to hard-code the value.
+
+
+* Notes on Performance
+
+For meshes that consist of < 5K vertices (like sphere.obj) timings on CPU/GPU 
+(SpinXForm/SpinXFormGPU respectively) are approximately the same. For meshes 
+that consist of ~20K vertices (like sphere_original.obj), SpinXFormGPU is 2-to-3 
+times faster compared to SpinXForm [1] .
+
+Another concern is that SpinXFormGPU was developed on a Mac OS X 10.6.8 (Snow 
+Leopard) 2.66GHz Intel Core Duo, gcc version 4.2.1 with an NVidia GeForce 9400M 
+card of Compute Compatibility 1.1. Since double precision is not supported for 
+Compute Compatibility 1.1, I had to convert doubles to floats, which resulted in 
+a severe loss in performance. Single precision accuracy also affects Conjugate 
+Gradient's convergence on the GPU. For CUDA devices of Compute Capability 1.3 
+and higher I provide double precision support for the SpinXFormGPU code at [7], 
+[8] respectively.
+
+Note that I didn't try to further accelerate in CUDA the "fast" version of 
+SpinXForm (see [9]), which uses CHOLMOD [5], since sparse matrix factorization 
+algorithms on the GPU are far from being mature and CHOLMOD is significantly 
+more difficult to build/link on diverse platforms.
+
+Performance of the software is memory-bound: its performance is limited by 
+memory bandwidth, not floating point operations (the amount of computations 
+per load/store is relatively small). This is due to the sparse-matrix-vector 
+multiplications that occur when the conjugate solver is executing.
 
 The iterative nature of the solution ('EigenSolver::solve' in EigenSolver.cpp 
 applies three inverse power iterations) pushes data to the device and back to 
 the host at the start and end of each iteration, which is an expensive operation. 
 This makes it hard to optimize further (ideally transfer of data between the host 
-and device through the PCIe bus should be minimized, that is data should reside 
-on the GPU for as long as possible).
+and the device through the PCIe bus should be minimized. Data should reside on 
+the GPU for as long as possible and ideally one should perform all the expensive 
+computations on the device and only by the end of the computations should transfer 
+the data back to the host). In particular, at the end of each iteration once the 
+solver ('solve_on_device_views', which is called from the routine 
+'LinearSolver::solve') on the device finishes, normalization of the vector 
+and conversion from reals to quaternions takes place back to the host. Note that 
+one could implement normalization on the device or skip it until completion of 
+the three iterations, since the only concern is overflow after a large number of 
+iterations (cheers Keenan Crane). Keeping data in real format on the device, 
+however, so that we avoid the bottleneck of transferring data to the host is not 
+straightforward.
 
+Whether CUSP's views are used or not, SpinXFormGPU is not significantly faster 
+compared to SpinXForm [1] mainly for two reasons:
+
+1. In constrast to SpinXForm, no preconditioner is used in SpinXFormGPU. 
+Preconditioners supported by CUSP do not work. For the linear systems to be 
+solved, matrices of quaternions are converted into a system of reals, so it 
+might be just that preconditioners for real matrices don't work for 
+quaternionic matrices. 
+
+2. SpinXFormGPU could have been significantly accelerated further by using 
+prefactorization of the sparse matrix A in A x = b in the eigenvalue problem. 
+The main advantage is that one can just factor once and then iteratively apply 
+back-substitution, so essentially each power iteration is a back-substitution.  
+This has already implemented for the CPU by Crane et al. in [4] by using 
+CHOLMOD [5]. However, implementing sparse Cholesky factorization on the GPU 
+tends to be a fairly complicated process, which does not always exploit the 
+maximum potential for parallel computations. To the best of my knowledge, 
+efficient and intuitive implementations of sparse Cholesky (or other)
+factorization algorithms on the GPU do not actually exist.
+
+Here are some pointers to the literature for the adventurous ones who would like
+to implement a Cholesky factorization on the GPU (cheers to Vasily Volkov).
+
+[-] Christen et al., 2007 General-Purpose Sparse Matrix Building Blocks using 
+    the NVIDIA CUDA Technology Platform, 
+    http://www.cs.jhu.edu/~misha/ReadingSeminar/Papers/Christen07.pdf
+[-] Krawezik and Poole, 2009, Accelerating the ANSYS Direct Sparse Solver with 
+    GPUs, 
+    http://saahpc.ncsa.illinois.edu/09/papers/Krawezik_paper.pdf
+[-] Yu et al., 2011, A CPU–GPU hybrid approach for the unsymmetric multifrontal 
+    method, 
+    http://www.sciencedirect.com/science/article/pii/S0167819111001293
+[-] George et al., 2011, Multifrontal Factorization of Sparse SPD Matrices on 
+    GPUs, http://goo.gl/NSuD2
+[-] Lucas et al., 2012, Multifrontal Sparse Matrix Factorization on Graphics 
+    Processing Units, ftp://ftp.isi.edu/isi-pubs/tr-677.pdf
+  
 * An alternative for recording time is to use cudaEvents and cudaEventElapsedTime()
 
-* Note that the reference_solution.obj is computed from the original version of 
-the code (SpinXForm)[1] by substituting double with float.
+* Note that the reference_solution_sphere.obj is computed from the original 
+version of the code (SpinXForm)[1] by substituting double with float.
 
-* ./identical_system.txt a sanity check to make sure that the gpu version of the
-code (SpinXFormGPU) solves the same linear system with the original version of 
-the code (SpinXForm [1])
-
+* ./identical_system.txt is a sanity check to make sure that the gpu version of 
+the code (SpinXFormGPU) solves the same linear system with the original version 
+of the code (SpinXForm [1]) when sphere.obj and bumpy.tga files are used as input.
 
 [1] http://users.cms.caltech.edu/~keenan/src/spinxform_commandline.zip
- at http://users.cms.caltech.edu/~keenan/project_spinxform.html
+    at http://users.cms.caltech.edu/~keenan/project_spinxform.html
 
-[2] http://code.google.com/p/cusp-library/
+[2] http://thrust.github.com/
+    
+[3] http://code.google.com/p/cusp-library/
+
+[4] http://users.cms.caltech.edu/~keenan/src/spinxform_fast.zip
+    at http://users.cms.caltech.edu/~keenan/project_spinxform.html
+
+[5] CHOLMOD: routines for sparse Cholesky factorization
+    http://www.cise.ufl.edu/research/sparse/cholmod/
+
+[6] http://code.google.com/p/gpuocelot/
+
+[7] https://github.com/nyiotis/SpinXFormGPU_double
+
+[8] https://github.com/nyiotis/SpinXFormGPU_Views_double
+
+[9] http://users.cms.caltech.edu/~keenan/src/spinxform_fast.zip
+    at http://users.cms.caltech.edu/~keenan/project_spinxform.html
+
+Code courtesy of Keenan Crane unless otherwise stated. For the original version 
+(SpinXForm), see [1]. Thanks to Keenan Crane for making his code publicly 
+available and many useful discussions and suggestions. 
 
 
 ===============================================================================

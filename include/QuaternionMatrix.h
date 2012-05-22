@@ -34,7 +34,6 @@
 
 #include <cusp/coo_matrix.h>
 #include <cusp/print.h>
-#include <cusp/csr_matrix.h>
 #include <cusp/io/matrix_market.h>
 
 #include <thrust/device_ptr.h>
@@ -42,11 +41,6 @@
 #include <thrust/device_free.h>
 #include <thrust/device_vector.h>
 #include <thrust/copy.h>
-
-//#include <cusp/dia_matrix.h>
-//#include <cusp/ell_matrix.h>
-#include <cusp/hyb_matrix.h>
-
 
 class QuaternionMatrix
 {
@@ -94,7 +88,6 @@ class QuaternionMatrix
       // dummy value for const access of zeros
       
       SparseMatrixf A;
-      // *NOTE* for doubles use SparseMatrixd A;
       
 };
 

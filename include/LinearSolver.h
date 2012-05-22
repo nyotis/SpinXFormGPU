@@ -8,7 +8,7 @@
 //
 // This version has been modified in several ways:
 //    - A conjugate gradient solver from CUSP library was added.
-//    - Routines related to original solvers, i.e. a sparse Cholesky 
+//    - Routines related to solvers used by SpinXForm, i.e. a sparse Cholesky 
 //      factorization and a simple conjugate gradient (CG) solver, were trimmed.
 //
 // ============================================================================
@@ -40,11 +40,11 @@ class LinearSolver {
       
       // converts vector from quaternion- to real-valued entries
       static void toReal( const std::vector<Quaternion>& uQuat,
-			             std::vector<float>& uReal );
+			                 std::vector<float>& uReal );
       
       // converts vector from real- to quaternion-valued entries
       static void toQuat( std::vector<float>& uReal,
-		               std::vector<Quaternion>& uQuat );
+		                    std::vector<Quaternion>& uQuat );
 };
 
 #endif

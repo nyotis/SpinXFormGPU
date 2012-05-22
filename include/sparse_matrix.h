@@ -1,6 +1,7 @@
-// =============================================================================
-// sparse_matrix.h
+// ----------------------------------------------------------------------------
 //
+// SpinXFormGPU -- sparse_matrix.h
+// 
 // Code courtesy of Robert Bridson.  For the original version, see:
 //    http://www.cs.ubc.ca/~rbridson/fluidsimulation/
 //
@@ -257,7 +258,6 @@ struct SparseMatrix
 };    
     
 typedef SparseMatrix<float> SparseMatrixf;
-//typedef SparseMatrix<double> SparseMatrixd;
 
 #endif
 

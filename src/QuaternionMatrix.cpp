@@ -73,7 +73,7 @@ const Quaternion& QuaternionMatrix :: operator()( int row, int col ) const
 }
 
 typedef cusp::coo_matrix<size_t, float, cusp::host_memory> coo_cusp;
-coo_cusp QuaternionMatrix :: toRealCooFormat( void ) { // check const qualifier -> header
+coo_cusp QuaternionMatrix :: toRealCooFormat( void ) {
 // return coo_cusp by value is *expensive*, but W is locally defined so cannot return it by reference    
     
    float Q[4][4];
@@ -98,15 +98,18 @@ coo_cusp QuaternionMatrix :: toRealCooFormat( void ) { // check const qualifier 
    }
    
    //std::cout <<  "dim of Sparse Matrix: " <<   A.n  << "\n";
-  
+	
+	// CUSP's COO rows ----------------------------------------------------------
+
    // save the index of each matrix's row for each pair of row and column indices in a nested 2D vector
    std::vector<int> rows;
    std::vector< std::vector<size_t> > cusp_rows = A.coo_format_rows( rows );
    //std::cout << cusp_rows.size() << "\n"; // 32016
    
    // hack to erase 0 content
-   cusp_rows.erase( cusp_rows.begin(), cusp_rows.begin() + 16008 ); // hard-coded
-   //cusp_rows.erase( cusp_rows.begin(), cusp_rows.begin() + n*4 ); // generic
+	//cusp_rows.erase( cusp_rows.begin(), cusp_rows.begin() + 84648 );
+   //cusp_rows.erase( cusp_rows.begin(), cusp_rows.begin() + 16008 ); // hard-coded
+   cusp_rows.erase( cusp_rows.begin(), cusp_rows.begin() + n*4 ); // generic
    
    // uncomment the 3 lines below to get a feel how the cusp_rows index looks like
    // for ( size_t i = 0; i < cusp_rows.size(); ++i )
@@ -120,14 +123,17 @@ coo_cusp QuaternionMatrix :: toRealCooFormat( void ) { // check const qualifier 
       copy( cusp_rows[i].begin(), cusp_rows[i].end(), back_inserter(cusp_rows_1D) );
       
    cout << "\n" << "CUSP_COO_rows_1D_size: " << cusp_rows_1D.size() << "\n";
-       
+   
+	// CUSP's COO columns -------------------------------------------------------
+	
    // save the index of each matrix's column for each pair of row and column indices in a nested 2D vector
    std::vector<int> cols;
    std::vector< std::vector<size_t> > cusp_columns = A.coo_format_columns( cols );
    //std::cout << "cusp_columns size: " << cusp_columns.size() << "\n"; // 32016
    
    // hack to erase 0 content 
-   cusp_columns.erase( cusp_columns.begin(), cusp_columns.begin() + 16008 ); // hard-coded
+	cusp_columns.erase( cusp_columns.begin(), cusp_columns.begin() + 84648 );
+   //cusp_columns.erase( cusp_columns.begin(), cusp_columns.begin() + 16008 ); // hard-coded
    //cusp_rows.erase( cusp_columns.begin(), cusp_columns.begin() + n*4 ); // generic
   
    /*
@@ -153,9 +159,10 @@ coo_cusp QuaternionMatrix :: toRealCooFormat( void ) { // check const qualifier 
    std::vector<float> vals;
    std::vector< std::vector<float> > cusp_values = A.coo_format_values( vals );   
 
-   // hack to erase 0 content 
-   cusp_values.erase( cusp_values.begin(), cusp_values.begin() + 16008 ); // hard-coded
-   //cusp_values.erase( cusp_values.begin(), cusp_values.begin() + n*4 ); // generic
+   // hack to erase 0 content
+	//cusp_values.erase( cusp_values.begin(), cusp_values.begin() + 84648 );
+   //cusp_values.erase( cusp_values.begin(), cusp_values.begin() + 16008 ); // hard-coded
+   cusp_values.erase( cusp_values.begin(), cusp_values.begin() + n*4 ); // generic
    
    // convert nested 2D cusp_values to 1D vector
    std::vector<float> cusp_values_1D; // careful with resize() adds a line of 0's in the beginning

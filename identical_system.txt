@@ -9,7 +9,7 @@ sparse matrix in the final linear system to be solved and corresponds to the
 *original* code (SpinXForm) when the vertices of the 'sphere.obj' are deformed 
 based on 'bumpy.tga'.
 
-In SpinXFormGPU, if you uncomment 'cusp::io::write_matrix_market_file( W, 'W.mtx' );' 
+In SpinXFormGPU, if you uncomment 'cusp::io::write_matrix_market_file( W, "W.mtx" );' 
 in QuaternionMatrix.cpp and then run SpinXFormGPU, you will get a 'W.mtx' matrix 
 in the Matrix Market exchange format [1]. The structure of the matrix in the 
 'W.mtx' and 'final_sparse_matrix-in_COO_format.txt' is identical (in fact, in the 

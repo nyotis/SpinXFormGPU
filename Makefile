@@ -1,5 +1,5 @@
 # replaced "-pedantic -ansi" CFLAGS and LDFLAGS from original makefile with
-# -Wno-long-long due to this issue
+# -Wno-long-long due to this bug in Thrust
 # https://github.com/thrust/thrust/issues/11
 # https://groups.google.com/forum/#!msg/thrust-users/jSujgymfbwM/MckpqfhvcFsJ
 
