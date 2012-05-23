@@ -181,7 +181,7 @@ of the code (SpinXForm [1]) when sphere.obj and bumpy.tga files are used as inpu
 
 [7] https://github.com/nyiotis/SpinXFormGPU_double
 
-[8] https://github.com/nyiotis/SpinXFormGPU_Views_double
+[8] https://github.com/nyiotis/SpinXFormGPUViews_double
 
 [9] http://users.cms.caltech.edu/~keenan/src/spinxform_fast.zip
     at http://users.cms.caltech.edu/~keenan/project_spinxform.html
