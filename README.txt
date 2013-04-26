@@ -1,20 +1,21 @@
 -------------------------------------------------------------------------------
 
-                   SpinXFormGPU, Nikos Yiotis, May 2012
+                   SpinXFormGPU, Nikos Yiotis, February 2013
 
-SpinXFormGPU is a GPU-aware version of SpinXForm [1] that uses NVidia's CUDA. 
+SpinXFormGPU is a GPU-aware version of SpinXForm [1] that uses NVIDIA's CUDA. 
 SpinXForm [1] is a C++ implementation of an algorithm for computing conformal 
 transformations of polygon meshes based on the paper
 
   K. Crane, U. Pinkall, and P. Schroeder, "Spin Transformations of
   Discrete Surfaces," ACM Transactions on Graphics (SIGGRAPH) 2011.
 
-The basic functionality is to take a manifold, triangulated mesh (without 
-boundary) plus a grayscale image map as input, and produce a new mesh with the 
-same connectivity but modified vertex positions. Triangles in the new mesh will 
+SpinXFormGPU accepts as input a 2D manifold, that is one triangulated mesh 
+without boundary, plus a grayscale image map and generates a new mesh with the 
+same connectivity but modified vertex positions. Triangles on the new mesh will 
 have nearly the same angles and aspect ratios as those from the original mesh, 
 but with curvature that differs by the amount specified in the input image  
-(see the paper above for more details).  
+(see the paper above for more details). Conformal transformations, combinations 
+of uniform scaling and orthogonal rotations 
 
 SpinXFormGPU solves the linear systems of SpinXForm [1] on the GPU using CUSP's 
 [2] conjugate gradient solver but *without* any preconditioner. Depending on 
@@ -189,6 +190,13 @@ of the code (SpinXForm [1]) when sphere.obj and bumpy.tga files are used as inpu
 Code courtesy of Keenan Crane unless otherwise stated. For the original version 
 (SpinXForm), see [1]. Thanks to Keenan Crane for making his code publicly 
 available and many useful discussions and suggestions. 
+
+ =------------------------------------------------------ Revision History --=
+
+  - 2012, 
+  -  2011, 
+  -  2011, 
+  =--------------------------------------------------------------------------=  
 
 
 ===============================================================================
