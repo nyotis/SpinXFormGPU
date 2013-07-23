@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------
 
-                   SpinXFormGPU, Nikos Yiotis, February 2013
+                   SpinXFormGPU, Nikos Yiotis, April 2012
 
 SpinXFormGPU is a GPU-aware version of SpinXForm [1] that uses NVIDIA's CUDA. 
 SpinXForm [1] is a C++ implementation of an algorithm for computing conformal 
@@ -193,10 +193,9 @@ available and many useful discussions and suggestions.
 
  =------------------------------------------------------ Revision History --=
 
-  - 2012, 
-  -  2011, 
-  -  2011, 
-  =--------------------------------------------------------------------------=  
+  - March 2012, Original implementation
+
+ =--------------------------------------------------------------------------=  
 
 
 ===============================================================================
