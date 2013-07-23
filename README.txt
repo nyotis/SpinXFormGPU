@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------
 
-                   SpinXFormGPU, Nikos Yiotis, April 2012
+                   SpinXFormGPU, Nikos Yotis, March 2012
 
 SpinXFormGPU is a GPU-aware version of SpinXForm [1] that uses NVIDIA's CUDA. 
 SpinXForm [1] is a C++ implementation of an algorithm for computing conformal 
@@ -14,8 +14,7 @@ without boundary, plus a grayscale image map and generates a new mesh with the
 same connectivity but modified vertex positions. Triangles on the new mesh will 
 have nearly the same angles and aspect ratios as those from the original mesh, 
 but with curvature that differs by the amount specified in the input image  
-(see the paper above for more details). Conformal transformations, combinations 
-of uniform scaling and orthogonal rotations 
+(see the paper above for more details).
 
 SpinXFormGPU solves the linear systems of SpinXForm [1] on the GPU using CUSP's 
 [2] conjugate gradient solver but *without* any preconditioner. Depending on 
