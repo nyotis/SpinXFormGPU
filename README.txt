@@ -1,6 +1,6 @@
 -------------------------------------------------------------------------------
 
-                   SpinXFormGPU, Nikos Yotis, March 2012
+                   SpinXFormGPU, Nik Yotis, March 2012
 
 SpinXFormGPU is a GPU-aware version of SpinXForm [1] that uses NVIDIA's CUDA. 
 SpinXForm [1] is a C++ implementation of an algorithm for computing conformal 
@@ -135,8 +135,9 @@ This has already implemented for the CPU by Crane et al. in [4] by using
 CHOLMOD [5]. However, implementing sparse Cholesky factorization on the GPU 
 tends to be a fairly complicated process, which does not always exploit the 
 maximum potential for parallel computations. To the best of my knowledge, 
-efficient and intuitive implementations of sparse Cholesky (or other)
-factorization algorithms on the GPU do not actually exist.
+efficient and intuitive implementations of sparse Cholesky (or other) 
+factorization algorithms on the GPU do not actually exist - check one update 
+on this http://faculty.cse.tamu.edu/davis/suitesparse.html (2014).
 
 Here are some pointers to the literature for the adventurous ones who would like
 to implement a Cholesky factorization on the GPU (cheers to Vasily Volkov).
