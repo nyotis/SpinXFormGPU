@@ -8,6 +8,9 @@
 # limitation of nvcc when targeting sm_13 and earlier hardware, 
 # see http://goo.gl/3or39) 
 
+#LLVM build removed -ansi from CFLAGS | LDFLAGS
+# run ./spinxform ./examples/bumpy/sphere.obj ./examples/bumpy/bumpy.tga ./examples/bumpy/result.obj
+
 TARGET = spinxformgpu
 
 CFLAGS  = -Wall -Werror -Wno-long-long -O3 -Iinclude -I/usr/local/cuda/include/
