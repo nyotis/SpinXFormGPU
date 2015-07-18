@@ -9,7 +9,10 @@
 # see http://goo.gl/3or39) 
 
 #LLVM build removed -ansi from CFLAGS | LDFLAGS
+
+############################################################ Run example #### 
 # run ./spinxform ./examples/bumpy/sphere.obj ./examples/bumpy/bumpy.tga ./examples/bumpy/result.obj
+############################################################################
 
 TARGET = spinxformgpu
 
