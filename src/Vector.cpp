@@ -42,13 +42,13 @@ Vector :: Vector( const Vector& v )
 // ACCESSORS -------------------------------------------------------------------
 
 float& Vector :: operator[]( int index )
-// returns reference to the specified component (0-based indexing: x, y, z )
+  // returns reference to the specified component (0-based indexing: x, y, z )
 {
    return ( &x )[ index ];
 }
 
 const float& Vector :: operator[]( int index ) const
-// returns const reference to the specified component (0-based indexing: x, y, z )
+  // returns const reference to the specified component (0-based indexing: x, y, z )
 {
    return ( &x )[ index ];
 }
@@ -57,7 +57,7 @@ const float& Vector :: operator[]( int index ) const
 // VECTOR SPACE OPERATIONS -----------------------------------------------------
 
 Vector Vector :: operator+( const Vector& v ) const
-// addition
+  // addition
 {
    return Vector( x + v.x,
                   y + v.y,
@@ -65,7 +65,7 @@ Vector Vector :: operator+( const Vector& v ) const
 }
 
 Vector Vector :: operator-( const Vector& v ) const
-// subtraction
+  // subtraction
 {
    return Vector( x - v.x,
                   y - v.y,
@@ -73,7 +73,7 @@ Vector Vector :: operator-( const Vector& v ) const
 }
 
 Vector Vector :: operator-( void ) const
-// negation
+  // negation
 {
    return Vector( -x,
                   -y,
@@ -81,7 +81,7 @@ Vector Vector :: operator-( void ) const
 }
 
 Vector Vector :: operator*( const float& c ) const
-// scalar multiplication
+  // scalar multiplication
 {
    return Vector( x*c,
                   y*c,
@@ -89,19 +89,19 @@ Vector Vector :: operator*( const float& c ) const
 }
 
 Vector operator*( const float& c, const Vector& v )
-// scalar multiplication
+  // scalar multiplication
 {
    return v*c;
 }
 
 Vector Vector :: operator/( const float& c ) const
-// scalar division
+  // scalar division
 {
    return (*this) * ( 1./c );
 }
 
 void Vector :: operator+=( const Vector& v )
-// addition / assignment
+  // addition / assignment
 {
    x += v.x;
    y += v.y;
@@ -109,7 +109,7 @@ void Vector :: operator+=( const Vector& v )
 }
 
 void Vector :: operator-=( const Vector& v )
-// subtraction / assignment
+  // subtraction / assignment
 {
    x -= v.x;
    y -= v.y;
@@ -117,7 +117,7 @@ void Vector :: operator-=( const Vector& v )
 }
 
 void Vector :: operator*=( const float& c )
-// scalar multiplication / assignment
+  // scalar multiplication / assignment
 {
    x *= c;
    y *= c;
@@ -125,7 +125,7 @@ void Vector :: operator*=( const float& c )
 }
 
 void Vector :: operator/=( const float& c )
-// scalar division / assignment
+  // scalar division / assignment
 {
    (*this) *= ( 1./c );
 }
@@ -134,7 +134,7 @@ void Vector :: operator/=( const float& c )
 // ALGEBRAIC OPERATIONS --------------------------------------------------------
 
 float Vector :: operator*( const Vector& v ) const
-// dot product
+  // dot product
 {
    return x*v.x +
           y*v.y +
@@ -142,7 +142,7 @@ float Vector :: operator*( const Vector& v ) const
 }
 
 Vector Vector :: operator^( const Vector& v ) const
-// cross product
+  // cross product
 {
    return Vector( y*v.z - z*v.y,
                   z*v.x - x*v.z,
@@ -153,31 +153,31 @@ Vector Vector :: operator^( const Vector& v ) const
 // NORMS -----------------------------------------------------------------------
 
 float Vector :: norm( void ) const
-// returns Euclidean length
+  // returns Euclidean length
 {
    return sqrt( norm2());
 }
 
 float Vector :: norm2( void ) const
-// returns Euclidean length squared
+  // returns Euclidean length squared
 {
    return (*this) * (*this);
 }
 
 Vector Vector :: unit( void ) const
-// returns unit vector
+  // returns unit vector
 {
    return (*this) / norm();
 }
 
 void Vector :: normalize( void )
-// divides by Euclidean length
+  // divides by Euclidean length
 {
    (*this) /= norm();
 }
 
 std::ostream& operator<<( std::ostream& os, const Vector& o )
-// scalar multiplication
+  // scalar multiplication
 {
    os << "[ "
       << o.x << " "
@@ -187,4 +187,3 @@ std::ostream& operator<<( std::ostream& os, const Vector& o )
 
    return os;
 }
-
